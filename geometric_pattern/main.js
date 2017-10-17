@@ -23,9 +23,14 @@ function draw() {
         } else {
             x = 0;
         }
-        fill(color(rVal, gVal, bVal));
-        stroke(color(rVal, gVal, bVal));
         while (x <= width) {
+            if ((mouseX-x)*(mouseX-x)+(mouseY-y)*(mouseY-y)<circleRadius*circleRadius) {
+            fill(color(127, 191, 255));
+            stroke(color(127, 191, 255));
+            } else {
+            fill(color(rVal, gVal, bVal));
+            stroke(color(rVal, gVal, bVal));
+            }
             ellipse(x, y, circleDiameter, circleDiameter);
             x += circleDiameter;
         }
