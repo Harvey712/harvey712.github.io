@@ -1,5 +1,6 @@
 var player;
 var enemy = [];
+var enemyDir = [];
 var timer;
 
 function setup() {
@@ -12,15 +13,22 @@ function draw() {
     background(0, 0, 100);
     if (timer % 20 == 0) {
         enemy.push(createSprite(random(5, width-5), 5, 10, 10))
+        enemyDir.push(random(Math.PI/4, 3*Math.PI/4));
     }
     var i;
     for (i = 0; i < enemy.length; i++) {
-        enemy[i].position.y += 3;
-        if (enemy[i].position.y > height + enemy[i].height/2) {
-            removeEnemy(i);
-        }
+        moveEnemy(i);
         if (enemy[i].overlap(player)) {
             removeAllEnemies();
+        }
+    }
+    for (i = 0; i < enemy.length; i++) {
+        if (enemy[i].position.y < -enemy[i].height/2 ||
+        enemy[i].position.y > height + enemy[i].height/2 || 
+        enemy[i].position.x < -enemy[i].width/2 ||
+        enemy[i].position.x > width + enemy[i].width/2) {
+            removeEnemy(i);
+            break;
         }
     }
     movePlayer();
@@ -28,6 +36,11 @@ function draw() {
     timer += 1;
 }
 
+function moveEnemy(i) {
+    var theta = enemyDir[i];
+    enemy[i].position.x += 3*Math.cos(theta);
+    enemy[i].position.y += 3*Math.sin(theta);
+}
 function movePlayer() {
     if (keyDown(RIGHT_ARROW) && player.position.x < width-player.width/2) {
         player.position.x += 2.5;
@@ -51,7 +64,6 @@ function removeAllEnemies() {
 }
 function removeEnemy(i) {
     enemy[i].remove();
-    var tempEnemy;
-    tempEnemy = enemy.slice(0, i);
-    enemy = tempEnemy.concat(enemy.slice(i+1, enemy.length));
+    enemy.splice(i, 1);
+    enemyDir.splice(i, 1);
 }
