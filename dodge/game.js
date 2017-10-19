@@ -3,6 +3,7 @@ var enemy = [];
 var enemyDir = [];
 var enemySpeed = [];
 var timer;
+var score;
 var isGameOver;
 var img = [];
 
@@ -12,11 +13,10 @@ function preload() {
 
 function setup() {
     createCanvas(600, 600);
-    player = createSprite(width/2, height-25, 10, 10);
+    player = createSprite(width/2, height-5, 10, 10);
     player.setCollider("rectangle", 0, 0, 10, 10);
-    timer = 0;
     fill("white");
-    isGameOver = false;
+    gameStart();
 }
 
 function draw() {
@@ -45,8 +45,9 @@ function draw() {
         }
         movePlayer();
         drawSprites();
-        text(enemy.length, 10, 20);
+        score += Math.floor(10000/(20 + player.position.y));
         timer += 1;
+        text(score, 10, 20);
     }
 }
 
@@ -106,10 +107,16 @@ function gameOver() {
     textAlign(CENTER);
     text("Game Over", width/2, height/4)
     textSize(20);
-    text("Your score is "+timer, width/2, height/2);
+    text("Your score is "+ score, width/2, height/2);
     text("Press space to retry", width/2, 3*height/4);
     if (keyDown(32)) {
-        isGameOver = false;
-        timer = 0;
+        gameStart()
     }
+}
+function gameStart() {
+    isGameOver = false;
+    timer = 0;
+    score = 0;
+    player.position.x = width/2;
+    player.position.y = height - 5;
 }
