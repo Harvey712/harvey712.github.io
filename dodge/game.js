@@ -25,7 +25,7 @@ function draw() {
     } else {
         background(0, 0, 100);
         if (timer % 50 == 0) {
-            firework(random(5, width-5), random(10, 50), 12)
+            firework(random(5, width-5), 50, 24, random(Math.PI/2), 1)
         }
         var i;
         for (i = 0; i < enemy.length; i++) {
@@ -40,19 +40,20 @@ function draw() {
             enemy[i].position.x < -enemy[i].width/2 ||
             enemy[i].position.x > width + enemy[i].width/2) {
                 removeEnemy(i);
+                i--;
             }
         }
         movePlayer();
         drawSprites();
-        text(timer, 10, 20);
+        text(enemy.length, 10, 20);
         timer += 1;
     }
 }
 
-function firework(x, y, n) {
+function firework(x, y, n, theta, speed) {
     var i;
     for (i=0; i<n; i++) {
-        newEnemy(x, y, 2*Math.PI*i/n, 3);
+        newEnemy(x, y, 2*Math.PI*i/n + theta, speed);
     }
 }
 
