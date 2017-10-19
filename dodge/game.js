@@ -11,7 +11,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(800, 800);
+    createCanvas(600, 600);
     player = createSprite(width/2, height-25, 10, 10);
     player.setCollider("rectangle", 0, 0, 10, 10);
     timer = 0;
@@ -40,7 +40,6 @@ function draw() {
             enemy[i].position.x < -enemy[i].width/2 ||
             enemy[i].position.x > width + enemy[i].width/2) {
                 removeEnemy(i);
-                // break;
             }
         }
         movePlayer();
